@@ -14,11 +14,12 @@ public class LeggiBabs {
 		
 		try {
 			Connection conn = DriverManager.getConnection(jbdcURL);
-			
+			//SQL E PREPARED STATEMENT UNA VOLTA SOLA
 			String sql="SELECT name FROM station WHERE landmark= ? "; //prima query
 
 			PreparedStatement st= conn.prepareStatement(sql); //poi statement
 			
+			//SETSTRING E RESULT POSSONO ESSERE RIPETUTE MOLTE VOLTE
 			st.setString(1, "Palo Alto"); //lo metto per definire il punto interrogativo di landmark
 			ResultSet res= st.executeQuery();
 			
