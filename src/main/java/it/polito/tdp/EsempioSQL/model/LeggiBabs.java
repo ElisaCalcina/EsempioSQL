@@ -27,6 +27,7 @@ public class LeggiBabs {
 				String nomeStazione= res.getString("name");
 				System.out.println(nomeStazione);
 			}
+			
 			st.close(); //-->chiudo solo se ho più statement
 			
 			//quando ho finito una interrogazione posso farne un'altra
