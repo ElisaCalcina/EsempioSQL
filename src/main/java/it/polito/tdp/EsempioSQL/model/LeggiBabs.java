@@ -1,49 +1,25 @@
 package it.polito.tdp.EsempioSQL.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.util.List;
+
+import it.polito.tdp.EsempioSQL.db.BabsDAO;
 
 public class LeggiBabs {
 	
 	public void run() {
-		String jbdcURL ="jdbc:mysql://localhost/babs?user=root&password=ac14dg!";
+		BabsDAO dao= new BabsDAO();
 		
-		try {
-			Connection conn = DriverManager.getConnection(jbdcURL);
-			//SQL E PREPARED STATEMENT UNA VOLTA SOLA
-			String sql="SELECT name FROM station WHERE landmark= ? "; //prima query
-
-			PreparedStatement st= conn.prepareStatement(sql); //poi statement
-			
-			//SETSTRING E RESULT POSSONO ESSERE RIPETUTE MOLTE VOLTE
-			st.setString(1, "Palo Alto"); //lo metto per definire il punto interrogativo di landmark
-			ResultSet res= st.executeQuery();
-			
-			while(res.next()) { //finchè è vero il cursore è posizionato su una riga che esiste
-				String nomeStazione= res.getString("name");
-				System.out.println(nomeStazione);
-			}
-			
-			st.close(); //-->chiudo solo se ho più statement
-			
-			//quando ho finito una interrogazione posso farne un'altra
-			//Statement st2= conn.createStatement();
-			
-			conn.close();
-			
-		} catch (SQLException e) {
-
-			e.printStackTrace();
+		List<Station> tutte= dao.listStation();
+		
+		for(Station s:tutte) {
+			System.out.println(s.getName());
 		}
-		
-		//FACTORY: creazione di un oggetto di una classe, senza conoscere il tipo della
-		//classe (NON posso usare new)
-		//uso un metodo fornito da un'altra classe che internamente farà new e conoscerà
-		//il tipo di classe effettivo
+		System.out.println("---");
+		List<Station> paloAlto= dao.listStationByLandMark("Palo Alto");
+		for(Station s:paloAlto) {
+			System.out.println(s.getName());
+		}
 	}
 	
 	public static void main (String args[]) {
